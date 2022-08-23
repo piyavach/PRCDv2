@@ -1,7 +1,8 @@
 # PRCDv2
 Arrangement of the Object Image Extraction
 
-We implement our technique. It called Patch Relational Covariance Descriptor version 2 (PRCD2).
+We implement our technique to Arrangement of the Object Image Extraction. 
+It called Patch Relational Covariance Descriptor version 2 (PRCD2).
 This work based applied from https://link.springer.com/chapter/10.1007/11744047_45.
 If you interest and use, please cite and follow this work. https://dl.acm.org/doi/abs/10.1145/3411174.3411200.
 In case you are using please cited at PRCDv1 https://dl.acm.org/doi/abs/10.1145/3411174.3411200.
@@ -67,10 +68,10 @@ distance2(descriptor_relation["car1"]
 
 reference
 
-M. Jamshed, S. Parvin, and S. Akter, “Significant HOG-Histogram of OrientedGradient Feature Selection for Human Detection,” International Journal ofComputer Applications, vol. 132, no. 17, pp. 20–24, Dec. 2015, doi:10.5120/IJCA2015907704. 
-O. Tuzel, F. Porikli, and P. Meer, “Region Covariance: A Fast Descriptor forDetection and Classification,” in Proceedings of the 9th European conference onComputer Vision - Volume Part II, Springer-Verlag, 2006, pp. 589–600. doi:10.1007/11744047_45. 
-P. Khunsongkiet, “Patch Relational Covariance Distance Similarity Approach forImage Ranking in Content-Based Image Retrieval,” 2020. http://www.iccfi.org/Files/2019/July Bangkok Conference Abstract.pdf 
-S. A. Nene, S. K. Nayar, and H. Murase, “Columbia Object Image Library(COIL-100).” 
-Katerenchuk, D. & Rosenberg, A. Rankdcg rank–ordering evaluation measure (2016).Information Retrieval, Social and Information Networks, LREC, 2016
-https://cocodataset.org/
+M. Jamshed, S. Parvin, and S. Akter, “Significant HOG-Histogram of Oriented Gradient Feature Selection for Human Detection,” International Journal of Computer Applications, vol. 132, no. 17, pp. 20–24, Dec. 2015, doi:10.5120/IJCA2015907704. 
+O. Tuzel, F. Porikli, and P. Meer, “Region Covariance: A Fast Descriptor for Detection and Classification,” in Proceedings of the 9th European conference on Computer Vision - Volume Part II, Springer-Verlag, 2006, pp. 589–600. doi: 10.1007/11744047_45. 
+P. Khunsongkiet, “Patch Relational Covariance Distance Similarity Approach for Image Ranking in Content-Based Image Retrieval,” 2020. http://www.iccfi.org/Files/2019/July Bangkok Conference Abstract.pdf 
+S. A. Nene, S. K. Nayar, and H. Murase, “Columbia Object Image Library (COIL-100).” 
+Katerenchuk, D. & Rosenberg, A. Rankdcg rank–ordering evaluation measure (2016). Information Retrieval, Social and Information Networks, LREC, 2016
+https://cocodataset.org/
 
