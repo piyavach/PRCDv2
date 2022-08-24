@@ -42,11 +42,17 @@ import numpy
 2. fixed the path of the tmp file
 such as 
 #paramenter and data tempolary path
+
 _patch_size = 16
+
 _max_similar_t = 50
+
 _patch_val_16 = "C:\\apng\\venv\\patch_16\\"
+
 _tmp_resize = "C:\\apng\\venv\\_tmp_resize.png"
+
 _tmp_result_D_relation_train = "C:\\apng\\venv\\_tmp_resize.png\\tmp_result_D_relation_train"
+
 _illus = "C:\\apng\\venv\\_illus\\"
 
 We fixed this as our computer paths. This neccessory to be change in the code as you computer path.
