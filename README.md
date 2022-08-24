@@ -1,5 +1,5 @@
 # PRCDv2
-Arrangement of the Object Image Extraction
+Arrangement of the Object Image Extraction watching youtube sample https://www.youtube.com/watch?v=KG9czA0MueM&t=24s
 
 We implement our technique to Arrangement of the Object Image Extraction. 
 It called Patch Relational Covariance Descriptor version 2 (PRCD2).
@@ -23,20 +23,33 @@ Getting started
 For PRCD code
 1. include the libarary as following
 import json
+
 import shutil
+
 import statistics
+
 import time
 
 import reg_cov
+
 from PIL import Image
+
 from lib import patch
+
 from lib import get_sub_dir
+
 from lib import get_file
+
 import cv2
+
 import numpy as np
+
 import math
+
 import sys
+
 import os
+
 import numpy
 
 2. fixed the path of the tmp file
