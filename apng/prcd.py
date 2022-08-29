@@ -21,6 +21,8 @@ from skimage.feature import hog
 from skimage import exposure
 
 
+_proj_path = "C:\\apng\\" #### <---change this for your project path and run ***
+
 
 from scipy import stats
 
@@ -30,22 +32,19 @@ np.warnings.filterwarnings('ignore')
 
 
 
-
-
-
-
 #paramenter and data tempolary path
 _patch_size = 16
 _max_similar_t = 50
-_patch_val_16 = "C:\\apng\\venv\\patch_16\\"
-_tmp_resize = "C:\\apng\\venv\\_tmp_resize.png"
-_tmp_result_D_relation_train = "C:\\apng\\venv\\_tmp_resize.png\\tmp_result_D_relation_train"
-_illus = "C:\\apng\\venv\\_illus\\"
+_patch_val_16 = os.path.join(_proj_path, "venv\\patch_16\\")
+# print(_patch_val_16)
+# _tmp_resize = os.path.join(_proj_path,"venv\\_tmp_resize.png")
+_illus = os.path.join(_proj_path,"venv\\_illus\\")
 
 
 
 
 
+_tmp_result_D_relation_train = os.path.join(_proj_path,"\\_tmp_resize.png\\tmp_result_D_relation_train")
 descriptor_relation = {}
 
 def img_patch_to_cov(patch_folder):
@@ -436,135 +435,134 @@ def encode_median(array, encode_size, min_sim_value, json_covarince_patch):
 
 
 
-def encoder_prcdv2(window_size, block_num, img_path, img_name, encode_size):
-    resize_wh = window_size * (block_num + 1)
-
-    _tmp_val = os.path.join("C:\\apng\\venv\\_tmp_val")
-    if not os.path.exists(_tmp_val):
-        os.mkdir(os.path.join(_tmp_val))
-
-    imgx = Image.open(os.path.join(img_path, img_name + ".jpg"))
-    dsize = (resize_wh, resize_wh)
-    imgx = imgx.resize(dsize, Image.ANTIALIAS)
-    imgx.save(os.path.join(_tmp_val, img_name + ".png"), "png")
-    img1 = cv2.imread(os.path.join(_tmp_val, img_name + ".png"))
-    img_w, img_h, c = img1.shape
-    print(img_w, img_h, c)
-
-    image_subx = img_name + ".png"
-
-    image_sub = os.path.splitext(image_subx)[0]
-
-    patch_tmp_16 = _patch_val_16
-    if os.path.exists(patch_tmp_16):
-        try:
-            shutil.rmtree(patch_tmp_16)
-        except OSError as e:
-            print("Error: %s - %s." % (e.filename, e.strerror))
-    os.mkdir(os.path.join(patch_tmp_16))
-
-    # print(os.path.join(_tmp2, image_subx))
-    patch_stride(image_sub + ".png", os.path.join(_tmp_val, image_subx), window_size, patch_tmp_16)
-
-    tmp_patch_json = _patch_val_16
-    if os.path.exists(tmp_patch_json):
-        try:
-            shutil.rmtree(tmp_patch_json)
-        except OSError as e:
-            print("Error: %s - %s." % (e.filename, e.strerror))
-
-    os.mkdir(os.path.join(tmp_patch_json))
-
-    files2 = get_file(patch_tmp_16)
-    json_result = {}
-    r_avg = []
-    g_avg = []
-    b_avg = []
-    # print(">>>>>>",len(files2))
-    for img_file2 in files2:
-        i_j_f = img_file2.split('_')
-        f = image_sub
-        image = cv2.imread(os.path.join(patch_tmp_16, img_file2))
-
-        resized = cv2.resize(image, (window_size, window_size), interpolation=cv2.INTER_LINEAR)
-
-        cv2.imwrite(_tmp_resize, resized)
-
-        #hist rgb
-        hist_r, hist_g, hist_b = hist_n(_tmp_resize, 16)
-
-        r = []
-        g = []
-        b = []
-        for j in range(len(hist_r)):
-            r.append(hist_r[j][0])
-            g.append(hist_g[j][0])
-            b.append(hist_b[j][0])
-
-        r_avg.append(avg(r))
-        g_avg.append(avg(g))
-        b_avg.append(avg(b))
-
-        ####
-
-
-        img = Image.open(_tmp_resize)
-
-        C1 = reg_cov.RegionCovarianceDescriptor(reg_cov.FeatureImage2(img))
-        if f in json_result.keys():
-            x = 0
-        else:
-            json_result[f] = {}
-
-        if i_j_f[0] == "0" or i_j_f[1] == "0":
-            x = 0
-        else:
-            json_result[f].update({i_j_f[0] + "_" + i_j_f[1]: C1.tolist()})
-
-    # r_avg = encode_rgb(r_avg)
-    # g_avg = encode_rgb(g_avg)
-    # b_avg = encode_rgb(b_avg)
-
-
-    # print('end 1. resize and patch covariance')
-    # print(json_result)
-    f = open(os.path.join(tmp_patch_json, image_sub + ".json"), 'w')
-    f.write(json.dumps(json_result))
-    f.close()
-    # print('end 2. resize and patch covariance')
-
-    tmp_result_D_relation_train = _tmp_result_D_relation_train
-    if os.path.exists(tmp_result_D_relation_train):
-        try:
-            shutil.rmtree(tmp_result_D_relation_train)
-        except OSError as e:
-            print("Error: %s - %s." % (e.filename, e.strerror))
-
-    os.mkdir(os.path.join(tmp_result_D_relation_train))
-
-    reg_cov._closest_mst_relation_matrix("a1", "a2", descriptor_relation, _max_similar_t)
-
-    result_D_relation = create_D_patch_matrix_coco2(image_sub, tmp_patch_json, sys.float_info.max,
-                                                    tmp_result_D_relation_train)
-
-
-    h = result_D_relation[image_sub]['m_h']
-    v = result_D_relation[image_sub]['m_v']
-    encode_h, block_num = \
-        encode_median(result_D_relation[image_sub]['m_h'],
-                      encode_size, 50, json_result[image_sub])
-
-    encode_v, block_num = \
-        encode_median(result_D_relation[image_sub]['m_v'],
-                      encode_size, 50, json_result[image_sub])
-
-    return encode_h, encode_v ,h ,v, r_avg, g_avg, b_avg
+# def encoder_prcdv2(window_size, block_num, img_path, img_name, encode_size):
+#     resize_wh = window_size * (block_num + 1)
+#
+#     _tmp_val = os.path.join("C:\\apng\\venv\\_tmp_val")
+#     if not os.path.exists(_tmp_val):
+#         os.mkdir(os.path.join(_tmp_val))
+#
+#     imgx = Image.open(os.path.join(img_path, img_name + ".jpg"))
+#     dsize = (resize_wh, resize_wh)
+#     imgx = imgx.resize(dsize, Image.ANTIALIAS)
+#     imgx.save(os.path.join(_tmp_val, img_name + ".png"), "png")
+#     img1 = cv2.imread(os.path.join(_tmp_val, img_name + ".png"))
+#     img_w, img_h, c = img1.shape
+#     print(img_w, img_h, c)
+#
+#     image_subx = img_name + ".png"
+#
+#     image_sub = os.path.splitext(image_subx)[0]
+#
+#     patch_tmp_16 = _patch_val_16
+#     if os.path.exists(patch_tmp_16):
+#         try:
+#             shutil.rmtree(patch_tmp_16)
+#         except OSError as e:
+#             print("Error: %s - %s." % (e.filename, e.strerror))
+#     os.mkdir(os.path.join(patch_tmp_16))
+#
+#     # print(os.path.join(_tmp2, image_subx))
+#     patch_stride(image_sub + ".png", os.path.join(_tmp_val, image_subx), window_size, patch_tmp_16)
+#
+#     tmp_patch_json = _patch_val_16
+#     if os.path.exists(tmp_patch_json):
+#         try:
+#             shutil.rmtree(tmp_patch_json)
+#         except OSError as e:
+#             print("Error: %s - %s." % (e.filename, e.strerror))
+#
+#     os.mkdir(os.path.join(tmp_patch_json))
+#
+#     files2 = get_file(patch_tmp_16)
+#     json_result = {}
+#     r_avg = []
+#     g_avg = []
+#     b_avg = []
+#     # print(">>>>>>",len(files2))
+#     for img_file2 in files2:
+#         i_j_f = img_file2.split('_')
+#         f = image_sub
+#         image = cv2.imread(os.path.join(patch_tmp_16, img_file2))
+#
+#         resized = cv2.resize(image, (window_size, window_size), interpolation=cv2.INTER_LINEAR)
+#
+#         cv2.imwrite(_tmp_resize, resized)
+#
+#         #hist rgb
+#         hist_r, hist_g, hist_b = hist_n(_tmp_resize, 16)
+#
+#         r = []
+#         g = []
+#         b = []
+#         for j in range(len(hist_r)):
+#             r.append(hist_r[j][0])
+#             g.append(hist_g[j][0])
+#             b.append(hist_b[j][0])
+#
+#         r_avg.append(avg(r))
+#         g_avg.append(avg(g))
+#         b_avg.append(avg(b))
+#
+#         ####
+#
+#
+#         img = Image.open(_tmp_resize)
+#
+#         C1 = reg_cov.RegionCovarianceDescriptor(reg_cov.FeatureImage2(img))
+#         if f in json_result.keys():
+#             x = 0
+#         else:
+#             json_result[f] = {}
+#
+#         if i_j_f[0] == "0" or i_j_f[1] == "0":
+#             x = 0
+#         else:
+#             json_result[f].update({i_j_f[0] + "_" + i_j_f[1]: C1.tolist()})
+#
+#     # r_avg = encode_rgb(r_avg)
+#     # g_avg = encode_rgb(g_avg)
+#     # b_avg = encode_rgb(b_avg)
+#
+#
+#     # print('end 1. resize and patch covariance')
+#     # print(json_result)
+#     f = open(os.path.join(tmp_patch_json, image_sub + ".json"), 'w')
+#     f.write(json.dumps(json_result))
+#     f.close()
+#     # print('end 2. resize and patch covariance')
+#
+#     tmp_result_D_relation_train = _tmp_result_D_relation_train
+#     if os.path.exists(tmp_result_D_relation_train):
+#         try:
+#             shutil.rmtree(tmp_result_D_relation_train)
+#         except OSError as e:
+#             print("Error: %s - %s." % (e.filename, e.strerror))
+#
+#     os.mkdir(os.path.join(tmp_result_D_relation_train))
+#
+#     reg_cov._closest_mst_relation_matrix("a1", "a2", descriptor_relation, _max_similar_t)
+#
+#     result_D_relation = create_D_patch_matrix_coco2(image_sub, tmp_patch_json, sys.float_info.max,
+#                                                     tmp_result_D_relation_train)
+#
+#
+#     h = result_D_relation[image_sub]['m_h']
+#     v = result_D_relation[image_sub]['m_v']
+#     encode_h, block_num = \
+#         encode_median(result_D_relation[image_sub]['m_h'],
+#                       encode_size, 50, json_result[image_sub])
+#
+#     encode_v, block_num = \
+#         encode_median(result_D_relation[image_sub]['m_v'],
+#                       encode_size, 50, json_result[image_sub])
+#
+#     return encode_h, encode_v ,h ,v, r_avg, g_avg, b_avg
 
 #prcdv2
 def img_resize(img_path, img_name):
     resize_wh = 496
-
-    _tmp_val = os.path.join("C:\\apng\\venv\\resize\\")
+    _tmp_val = os.path.join(_proj_path,"venv\\resize\\")
     if not os.path.exists(_tmp_val):
         os.mkdir(os.path.join(_tmp_val))
 
@@ -577,7 +575,7 @@ def img_resize(img_path, img_name):
 def img_resize2(img_path, img_name):
     resize_wh = 496
 
-    _tmp_val = os.path.join("C:\\apng\\venv\\resize\\")
+    _tmp_val = os.path.join(_proj_path,"venv\\resize\\")
     if not os.path.exists(_tmp_val):
         os.mkdir(os.path.join(_tmp_val))
 
@@ -609,10 +607,10 @@ def distance2(prcd1, prcd2):
 
 
 def coil100_experiment():
-    _coil_100 = "C:\\apng\\coil_100\\"
-    gray_descriptor = "C:\\apng\\gray_descriptor"
+    _coil_100 = os.path.join(_proj_path,"coil_100\\")
+    gray_descriptor = os.path.join(_proj_path,"gray_descriptor")
     _label_init = "obj"
-    _tmpxxx = "C:\\apng\\tmpxxx.png"
+    _tmpxxx = os.path.join(_proj_path,"tmpxxx.png")
 
 
     file_names = get_file(_coil_100)
@@ -668,7 +666,7 @@ def coil100_experiment():
 
                 json_descriptor(image1, _tmpxxx, descriptor_relation2)
 
-                _tmpxxx2 = "C:\\apng\\tmpxxx2.png"
+                _tmpxxx2 = os.path.join(_proj_path,"tmpxxx2.png")
                 image = cv2.imread(_tmpxxx)
                 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 backtorgb = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
@@ -705,9 +703,9 @@ def nDCG(rank_data):
 
 
 def coil100_experiment_measurement():
-    _coil_100 = "C:\\apng\\coil_100\\"
-    _coil_100_result = "C:\\apng\\coil_100_result\\"
-    gray_descriptor = "C:\\apng\\gray_descriptor"
+    _coil_100 = os.path.join(_proj_path, "coil_100\\")
+    _coil_100_result = os.path.join(_proj_path,"coil_100_result\\")
+    gray_descriptor = os.path.join(_proj_path,"gray_descriptor")
 
     file_names = get_file(_coil_100)
 
@@ -880,8 +878,8 @@ def _sum(arr):
 
 def coil100_experiment_DCG():
 
-    _coil_100_result = "C:\\apng\\coil_100_result\\"
-    coil_100_result_sort = "C:\\apng\\coil_100_result_sort\\"
+    _coil_100_result = os.path.join(_proj_path, "coil_100_result\\")
+    coil_100_result_sort = os.path.join(_proj_path,"coil_100_result_sort\\")
     files = get_file(_coil_100_result)
 
 
@@ -993,13 +991,15 @@ def img_to_gray_scale(_cropx):
 
 # 1. preprocess image gray scale
 print("1. preprocess image gray scale")
-_cropx_gray = 'C:\\apng\\_cropx_gray\\'
-img_to_gray_scale('C:\\apng\\car_crop\\')
+_cropx_gray = os.path.join(_proj_path,'_cropx_gray\\')
+print(_cropx_gray)
+img_to_gray_scale(os.path.join(_proj_path,'car_crop\\'))
 
 # 2. descritor generate
 print("2.descritor generate")
 # src='C:\\apng\\car_crop\\' # rgb comparison
-src = 'C:\\apng\\_cropx_gray\\' # grayscale comparison
+
+src = os.path.join(_proj_path,'_cropx_gray\\') # grayscale comparison
 
 excution_time = []
 
@@ -1047,8 +1047,8 @@ start_time = time.time()
 # Process is slow at reg_cov._closest_mst_relation_matrix.
 print("3.similarity distance between image")
 start_time = time.time()
-d1 = reg_cov._closest_mst_relation_matrix("car1x", "car2x", descriptor_relation, _max_similar_t)
-print("Distance of car2 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car2"]))
+d1 = reg_cov._closest_mst_relation_matrix("car1x", "car2x", descriptor_relation, _max_similar_t) # v1 slow bottleneck
+print("Distance of car2 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car2"])) #v2 faster
 start_time = time.time()
 d1 = reg_cov._closest_mst_relation_matrix("car1x", "car3x", descriptor_relation, _max_similar_t)
 print("Distance of car3 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car3"]))
