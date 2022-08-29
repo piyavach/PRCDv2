@@ -2,21 +2,21 @@
 Arrangement of the Object Image Extraction watching youtube sample https://www.youtube.com/watch?v=KG9czA0MueM&t=24s
 
 We implement our technique to Arrangement of the Object Image Extraction. 
-It called Patch Relational Covariance Descriptor version 2 (PRCD2).
-This work based applied from https://link.springer.com/chapter/10.1007/11744047_45.
-If you interest and use, please cite and follow this work. https://dl.acm.org/doi/abs/10.1145/3411174.3411200.
-In case you are using please cited at PRCDv1 https://dl.acm.org/doi/abs/10.1145/3411174.3411200.
+It is called Patch Relational Covariance Descriptor version 2 (PRCD2).
+This work is based on https://link.springer.com/chapter/10.1007/11744047_45.
+If you are interested and use it in your work, please cite and follow this work. https://dl.acm.org/doi/abs/10.1145/3411174.3411200.
+In case you are using please cite at PRCDv1 https://dl.acm.org/doi/abs/10.1145/3411174.3411200.
 
 Note: This work is implemented for my education and study without money profit.
 
 
 
-PRCDv2 is an technique to evaluate similarity between two object  arrangement.
-this technique is inspirited based on patching or windows sliding technique such a HOG and combined with the region covariance technique.
-We get good nDCG score at 0.97 and this work fine when the setting up environment is like good providing studio such as COIL-100.
-The main citations is in this below README.
-*If you want to cite our work, you could please cite on our whole main citations, currently.
-*We note that in future. If our work PRCDv2 are pubished, we update a primary citation to our mainly citations section below.
+PRCDv2 is a technique to evaluate similarity between two object  arrangements.
+This technique is inspired based on patching or windows sliding techniques such a HOG and combined with the region covariance technique.
+We get a good nDCG score at 0.97 and this works fine when the setting up environment is like a good providing studio such as COIL-100.
+The main citations is in the below README.
+*If you want to cite our work, you could please cite our whole main citations, currently.
+*We note that in future. If our work PRCDv2 are published, we update a primary citation to our mainly citations section below.
 
 Getting started
 
@@ -56,15 +56,15 @@ import numpy
 
 2. fixed the path of the tmp file
 such as 
-#paramenter and data tempolary path example. Those paths we set on our computer for tempolary image such gray scale, patching image and etc. for illustation and clearify samples.
+#parameter and data temporary path example. Those paths we set on our computer for temporary image such gray scale, patching image and etc. for illustration and clarify samples.
 
 _proj_path = "C:\\apng\\" #### <---change this for your project path and run ***
 
-We fixed this as our computer paths. This neccessory to be change in the code as you computer path.
+We fixed this as our computer paths. This necessary to be change in the code as you computer path.
 
 
 
-3 the running file is on the prcd.py
+3 the running file is on the c:\apng\prcd.py <--- this project is in our computer path.
 
 note: 
 function to create PRCD descriptor
@@ -95,4 +95,3 @@ S. A. Nene, S. K. Nayar, and H. Murase, “Columbia Object Image Library (COIL-1
 Katerenchuk, D. & Rosenberg, A. Rankdcg rank–ordering evaluation measure (2016). Information Retrieval, Social and Information Networks, LREC, 2016
 
 https://cocodataset.org/
-
