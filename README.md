@@ -20,6 +20,8 @@ The main citations is in this below README.
 
 Getting started
 
+Note: we run programme over the python 3.6 and intellij ide
+
 For PRCD code
 1. include the libarary as following
 import json
@@ -56,17 +58,11 @@ import numpy
 such as 
 #paramenter and data tempolary path example. Those paths we set on our computer for tempolary image such gray scale, patching image and etc. for illustation and clearify samples.
 
-
-_patch_val_16 = "C:\\apng\\venv\\patch_16\\"
-
-_tmp_resize = "C:\\apng\\venv\\_tmp_resize.png"
-
-_tmp_result_D_relation_train = "C:\\apng\\venv\\_tmp_resize.png\\tmp_result_D_relation_train"
-
-_illus = "C:\\apng\\venv\\_illus\\"
-...
+_proj_path = "C:\\apng\\" #### <---change this for your project path and run ***
 
 We fixed this as our computer paths. This neccessory to be change in the code as you computer path.
+
+
 
 3 the running file is on the prcd.py
 
