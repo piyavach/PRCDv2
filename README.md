@@ -20,7 +20,7 @@ The main citations is in the below README.
 
 Getting started
 
-Note: we run programme over the python 3.6 and intellij ide
+Note: we run programme over the python 3.6 and Pycharm Intellij IDE
 
 For PRCD code
 1. include the libarary as following
