@@ -23,7 +23,7 @@ Getting started
 Note: we run programme over the python 3.6 and Pycharm Intellij IDE
 
 For PRCD code
-1. include the libarary as following
+1. setup and include the libarary to your project as following
 import json
 
 import shutil
