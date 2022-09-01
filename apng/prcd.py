@@ -1047,14 +1047,19 @@ start_time = time.time()
 # Process is slow at reg_cov._closest_mst_relation_matrix.
 print("3.similarity distance between image")
 start_time = time.time()
-d1 = reg_cov._closest_mst_relation_matrix("car1x", "car2x", descriptor_relation, _max_similar_t) # v1 slow bottleneck
-print("Distance of car2 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car2"])) #v2 faster
+#d1 = reg_cov._closest_mst_relation_matrix("car1x", "car2x", descriptor_relation, _max_similar_t) # v1 find distance slow bottleneck
+#print("Distance of car2 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car2"])) #v2 find distance faster
+print("Distance of car2 = ", "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car2"])) #v2 find distance faster
+
 start_time = time.time()
-d1 = reg_cov._closest_mst_relation_matrix("car1x", "car3x", descriptor_relation, _max_similar_t)
-print("Distance of car3 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car3"]))
+#d1 = reg_cov._closest_mst_relation_matrix("car1x", "car3x", descriptor_relation, _max_similar_t)
+#print("Distance of car3 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car3"]))
+print("Distance of car3 = ","d2=", distance2(descriptor_relation["car1"], descriptor_relation["car3"]))
 start_time = time.time()
 d1 = reg_cov._closest_mst_relation_matrix("car1x", "car4x", descriptor_relation, _max_similar_t)
-print("Distance of car4 = d1 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car4"]))
+#print("Distance of car4 = d1 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car4"]))
+print("Distance of car4 ", "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car4"]))
 start_time = time.time()
-d1 = reg_cov._closest_mst_relation_matrix("car1x", "car5x", descriptor_relation, _max_similar_t)
-print("Distance of car5 = d1 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car5"]))
+#d1 = reg_cov._closest_mst_relation_matrix("car1x", "car5x", descriptor_relation, _max_similar_t)
+#print("Distance of car5 = d1 = ", d1, (time.time() - start_time), "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car5"]))
+print("Distance of car5 = ", "d2=", distance2(descriptor_relation["car1"], descriptor_relation["car5"]))
