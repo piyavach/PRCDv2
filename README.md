@@ -79,7 +79,8 @@ function to determine the similarity between two images
 
 distance2(descriptor_relation["car1"]
 
-
+Note: Our method PRCDv2 is high effective while the same or similar bacground are setting up with difference object arrangement.
+However cropping object dection such deep learning helps PRCD similarity evatuation.
 
 
 reference
