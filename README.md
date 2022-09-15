@@ -1,11 +1,13 @@
 # PRCDv2
 Arrangement of the Object Image Extraction watching youtube sample https://www.youtube.com/watch?v=KG9czA0MueM&t=24s
 
-Sample input is following.
+Sample input is following.<br />
 ![alt text](https://raw.githubusercontent.com/piyavach/PRCDv2/main/apng/input.jpg)
+<br />
 
-Sample output is following.
-![alt text](https://raw.githubusercontent.com/piyavach/PRCDv2/main/apng/output.jpg)
+Sample output is following.<br />
+![alt text](https://raw.githubusercontent.com/piyavach/PRCDv2/main/apng/output.jpg)<br />
+
 
 We implement our technique to Arrangement of the Object Image Extraction. 
 It is called Patch Relational Covariance Descriptor version 2 (PRCD2).
