@@ -990,7 +990,7 @@ def img_to_gray_scale(_cropx):
 
 
 # 1. preprocess image gray scale
-print("1. preprocess image gray scale")
+print("1. preprocess image gray scale at ",os.path.join(_proj_path,'car_crop\\'))
 _cropx_gray = os.path.join(_proj_path,'_cropx_gray\\')
 print(_cropx_gray)
 img_to_gray_scale(os.path.join(_proj_path,'car_crop\\'))
@@ -1005,9 +1005,9 @@ excution_time = []
 
 start_time = time.time()
 src_no = '1'
-json_descriptor("car1x", src+src_no+".jpg", descriptor_relation)
+json_descriptor("car1x", src+src_no+".jpg", descriptor_relation) #<--give descriptor name car1x and keep descriptor prcdv1 ("_cropx_gray/1.jpg")
 img = img_resize(src, src_no)
-json_descriptor("car1", img, descriptor_relation)
+json_descriptor("car1", img, descriptor_relation) #<--give descriptor name car1 and keep descriptor prcdv2
 prcd_illustrate(src+src_no+".jpg", descriptor_relation["car1"]["z"], _max_similar_t) #keep PRCD illustration path (_illus = "C:\\apng\\venv\\_illus\\")
 excution_time.append(time.time() - start_time)
 
